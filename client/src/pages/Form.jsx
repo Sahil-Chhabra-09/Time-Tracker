@@ -62,12 +62,35 @@ const Form = () => {
     }
   };
 
+  const afterLoginTasks = async (loggedInResponse, onSubmitProps) => {
+    console.log(loggedInResponse);
+    onSubmitProps.resetForm();
+    if (loggedInResponse) {
+      localStorage.setItem("token", loggedInResponse.token);
+      localStorage.setItem("uid", loggedInResponse.user._id);
+      dispatch(
+        setLogin({
+          token: loggedInResponse.token,
+          name: loggedInResponse.user.name,
+          uid: loggedInResponse.user._id,
+        })
+      );
+      navigate("/");
+    }
+    await axios
+      .post(`${apiUrl}time`, {
+        uid: String(loggedInResponse.user._id),
+      })
+      .then((res) => {
+        console.log("Created data", res);
+      });
+  };
+
   const login = async (values, onSubmitProps) => {
-    let loggedInResponse;
     await axios
       .post(`${apiUrl}auth/login`, values)
       .then((res) => {
-        loggedInResponse = res.data;
+        afterLoginTasks(res.data, onSubmitProps);
       })
       .catch((error) => {
         console.log({ err: error });
@@ -76,31 +99,10 @@ const Form = () => {
             position: "bottom-left",
           });
         } else {
-          toast.error("Something went wrong", {
+          toast.error("Something went wrong, couldn't login", {
             position: "bottom-left",
           });
         }
-      });
-    const loggedIn = await loggedInResponse.json();
-    onSubmitProps.resetForm();
-    if (loggedInResponse) {
-      localStorage.setItem("token", loggedInResponse.data.token);
-      localStorage.setItem("uid", loggedInResponse.data.user._id);
-      dispatch(
-        setLogin({
-          token: loggedInResponse.data.token,
-          name: loggedInResponse.data.user.name,
-          uid: loggedInResponse.data.user._id,
-        })
-      );
-      navigate("/");
-    }
-    await axios
-      .post(`${apiUrl}time`, {
-        uid: String(loggedInResponse.data.user._id),
-      })
-      .then((res) => {
-        console.log("Created data", res);
       });
   };
 

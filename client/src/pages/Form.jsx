@@ -63,8 +63,25 @@ const Form = () => {
   };
 
   const login = async (values, onSubmitProps) => {
-    const loggedInResponse = await axios.post(`${apiUrl}auth/login`, values);
-    // const loggedIn = await loggedInResponse.json();
+    let loggedInResponse;
+    await axios
+      .post(`${apiUrl}auth/login`, values)
+      .then((res) => {
+        loggedInResponse = res.data;
+      })
+      .catch((error) => {
+        console.log({ err: error });
+        if (error.response.status === 400) {
+          toast.error("User does not exist", {
+            position: "bottom-left",
+          });
+        } else {
+          toast.error("Something went wrong", {
+            position: "bottom-left",
+          });
+        }
+      });
+    const loggedIn = await loggedInResponse.json();
     onSubmitProps.resetForm();
     if (loggedInResponse) {
       localStorage.setItem("token", loggedInResponse.data.token);

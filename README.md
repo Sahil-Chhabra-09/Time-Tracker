@@ -38,3 +38,9 @@ Now, I can keep track of time with just a click of a button.*
 - cors for cross origin resource sharing
 - dotenv for environment variables
 - morgan for logging out the requests
+
+## Future Scope / Features to follow:
+- commenting about the time frames
+- displaying all the time frames data in a sidesection
+- tagging of the time spent throughout the day and sorting based on that
+- visualizing how the day went by analyzing the tags

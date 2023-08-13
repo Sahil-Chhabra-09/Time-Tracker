@@ -11,14 +11,10 @@ Hence, I create a simple app which makes this task way easier, whenever you sit 
 
 Through login system integrated, you can operate it in multiple devices. At the end of the day, you can know how long you sat down for throughout the day.
 
-```
-Personally, I created this because I felt the need of something like this during my internship.
-
+*Personally, I created this because I felt the need of something like this during my internship.
 I was supposed to work for certain period of time, but I always forgot when I signed out for lunch or tea breaks and all that which made me either sit for longer durations or shorter durations,
 hence, I created this.
-
-Now, I can keep track of time with just a click of a button.
-```
+Now, I can keep track of time with just a click of a button.*
 
 ## Technologies Used:
 

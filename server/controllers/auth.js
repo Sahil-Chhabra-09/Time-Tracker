@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 const register = async (req, res) => {
-  console.log("In register");
   try {
     const { name, email, password } = req.body;
     const salt = await bcrypt.genSalt();
@@ -13,7 +12,6 @@ const register = async (req, res) => {
       email,
       password: passwordHash,
     };
-    console.log(savedUser);
     await User.create(savedUser);
     res.status(201).json(savedUser);
   } catch (error) {
@@ -23,14 +21,11 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    console.log(req.body);
     const { email, password } = req.body;
-    console.log(email);
     const user = await User.findOne({ email: email });
     if (!user) {
       return res.status(400).json({ msg: "User does not exist." });
     }
-    console.log(user);
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ msg: "Invalid Credentials." });

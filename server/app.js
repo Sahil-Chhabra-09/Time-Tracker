@@ -5,9 +5,11 @@ const cors = require("cors");
 
 const port = process.env.PORT || 3001;
 const connectDb = require("./db/connect");
-const authRouter = require("./routes/register");
 const morgan = require("morgan");
+
+const authRouter = require("./routes/register");
 const timeRouter = require("./routes/time");
+const tagRouter = require("./routes/Tags");
 
 app.use(express.json());
 app.use(cors());
@@ -15,6 +17,7 @@ app.use(morgan("common"));
 
 app.use("/auth", authRouter);
 app.use("/time", timeRouter);
+app.use("/tag", tagRouter);
 
 app.get("/", (req, res) => {
   res.status(200).json({ ping: "pong" });

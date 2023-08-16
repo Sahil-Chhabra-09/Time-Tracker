@@ -19,7 +19,7 @@ function App() {
           <Route path="/" Component={Home} />
           <Route path="/auth" Component={isLoggedIn ? Home : Login} />
         </Routes>
-        <ToastContainer />
+        <ToastContainer position="bottom-left" autoClose={3000} limit={4} />
       </BrowserRouter>
     </div>
   );

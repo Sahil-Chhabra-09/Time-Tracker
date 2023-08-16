@@ -55,15 +55,12 @@ const Form = () => {
       values
     );
     if (savedUserResponse) {
-      toast.success("Registered Successfully!", {
-        position: "bottom-left",
-      });
+      toast.success("Registered Successfully!");
       setPageType("login");
     }
   };
 
   const afterLoginTasks = async (loggedInResponse, onSubmitProps) => {
-    console.log(loggedInResponse);
     onSubmitProps.resetForm();
     if (loggedInResponse) {
       localStorage.setItem("token", loggedInResponse.token);
@@ -95,13 +92,9 @@ const Form = () => {
       .catch((error) => {
         console.log({ err: error });
         if (error.response.status === 400) {
-          toast.error("User does not exist", {
-            position: "bottom-left",
-          });
+          toast.error("User does not exist");
         } else {
-          toast.error("Something went wrong, couldn't login", {
-            position: "bottom-left",
-          });
+          toast.error("Something went wrong, couldn't login");
         }
       });
   };

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Button } from "@mui/material";
+import { Button, Input } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogout } from "../state";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Navbar from "./Navbar";
 
 function Home() {
   const authToken = useSelector((state) => state.auth.token);
@@ -26,6 +27,8 @@ function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     authToken || localStorage.getItem("token")
   );
+  const [isTaggingDisabled, setIsTaggingDisabled] = useState(true);
+  const [lastRecordedTime, setLastRecordedTime] = useState(null);
 
   useEffect(() => {
     readTimerDataFromDb();
@@ -59,6 +62,7 @@ function Home() {
 
   useEffect(() => {
     updateInDb();
+    setIsTaggingDisabled(isTaggingDisabled || started);
   }, [started]);
 
   useEffect(() => {
@@ -119,9 +123,6 @@ function Home() {
           started: started,
           totalTime: tempTime,
         })
-        .then((res) => {
-          console.log("Updated data", res);
-        })
         .catch((error) =>
           console.log({
             msg: "Error occured while updating in db",
@@ -144,6 +145,8 @@ function Home() {
         time: prevTotalTime.time + (currentStopTime - startTime) / 1000,
       }));
       setStarted((prev) => !prev);
+      setIsTaggingDisabled(false);
+      setLastRecordedTime((currentStopTime - startTime) / 1000);
     }
   };
 
@@ -151,6 +154,8 @@ function Home() {
     setTotalTime({ time: 0, hours: 0, minutes: 0, seconds: 0 });
     setstartTime(null);
     setStarted(false);
+    setIsTaggingDisabled(true);
+    setLastRecordedTime(null);
     const data = {
       totalTime: { time: 0, hours: 0, minutes: 0, seconds: 0 },
       started: false,
@@ -174,37 +179,58 @@ function Home() {
     localStorage.removeItem("uid");
     dispatch(setLogout);
     setIsLoggedIn(false);
-    toast.success("Logged out successfully!", { position: "bottom-left" });
+    toast.success("Logged out successfully!");
   };
 
   const navigateToLogin = () => {
     navigate("/auth");
   };
 
+  const handleKeydown = async (event) => {
+    if (event.key === "Enter" || event.key === "Done" || event.key === "Go") {
+      if (!isLoggedIn) {
+        toast.info("Please login to enable tagging", {
+          theme: "coloured",
+        });
+      } else {
+        if (!localStorage.getItem("uid") || !localStorage.getItem("token")) {
+          toast.info("Please login again", {
+            theme: "coloured",
+          });
+        } else {
+          await axios.post(
+            `${apiUrl}tag`,
+            {
+              tag: event.target.value,
+              uid: String(localStorage.getItem("uid")),
+              time: lastRecordedTime,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${String(
+                  localStorage.getItem("token")
+                )}`,
+              },
+            }
+          );
+          toast.info("Tagged Successfully", {
+            theme: "coloured",
+          });
+        }
+      }
+      event.target.value = "";
+      setIsTaggingDisabled(true);
+    }
+  };
+
   return (
     <div className="bg-cyan-900 w-screen h-screen text-white">
-      <div className="flex justify-between">
-        <div className="w-max p-2">
-          {new Date(currentTime).toString().split("(")[0]}
-        </div>
-        {isLoggedIn ? (
-          <Button
-            variant="outlined"
-            sx={{ color: "white", border: "1px solid #DEDEDE" }}
-            onClick={handleLogOut}
-          >
-            Logout
-          </Button>
-        ) : (
-          <Button
-            variant="outlined"
-            sx={{ color: "white", border: "1px solid #DEDEDE" }}
-            onClick={navigateToLogin}
-          >
-            Login / SignUp
-          </Button>
-        )}
-      </div>
+      <Navbar
+        isLoggedIn={isLoggedIn}
+        handleLogOut={handleLogOut}
+        navigateToLogin={navigateToLogin}
+        currentTime={currentTime}
+      />
       <div className="flex flex-col h-3/5 justify-center space-y-4">
         <div className="mb-8 text-xl">
           <div>{`Hours : ${totalTime.hours}`}</div>
@@ -228,6 +254,23 @@ function Home() {
           >
             Stop
           </Button>
+        </div>
+        <div>
+          <Input
+            color="primary"
+            disabled={isTaggingDisabled}
+            placeholder="Tag It"
+            size="sm"
+            variant="outlined"
+            sx={{
+              color: "white",
+              borderBottom: isTaggingDisabled
+                ? "1px solid gray"
+                : "1px solid #DEDEDE",
+            }}
+            onKeyDown={handleKeydown}
+            inputProps={{ maxLength: 20 }}
+          />
         </div>
         <div>
           <Button

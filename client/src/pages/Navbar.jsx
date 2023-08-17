@@ -5,11 +5,13 @@ import useOnclickOutside from "react-cool-onclickoutside";
 import Timeline from "./Timeline";
 import axios from "axios";
 import { toast } from "react-toastify";
+import CurrentTime from "../components/RenderCurrentTime";
 
-function Navbar({ isLoggedIn, handleLogOut, navigateToLogin, currentTime }) {
+function Navbar({ isLoggedIn, handleLogOut, navigateToLogin }) {
   const isDesktop = useMediaQuery("(min-width:700px)");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showTimeline, setShowTimeline] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allTags, setAllTags] = useState([]);
   const [errorStatus, setErrorStatus] = useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -27,6 +29,7 @@ function Navbar({ isLoggedIn, handleLogOut, navigateToLogin, currentTime }) {
       });
     } else {
       setShowTimeline(true);
+      setIsLoading(true);
       await axios
         .get(`${apiUrl}tag`, {
           params: { uid: String(localStorage.getItem("uid")) },
@@ -40,6 +43,9 @@ function Navbar({ isLoggedIn, handleLogOut, navigateToLogin, currentTime }) {
         .catch((error) => {
           setErrorStatus(error.response.status);
           console.error({ msg: "Couldn't get tags", error: error });
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
   };
@@ -54,14 +60,14 @@ function Navbar({ isLoggedIn, handleLogOut, navigateToLogin, currentTime }) {
 
   return (
     <div className="flex justify-between shadow-lg p-4 items-center">
-      <div className="w-max p-2">
-        {new Date(currentTime).toString().split("(")[0]}
-      </div>
+      <CurrentTime />
       <Timeline
         showTimeline={showTimeline}
         setShowTimeline={setShowTimeline}
         allTags={allTags}
+        setAllTags={setAllTags}
         errorStatus={errorStatus}
+        isLoading={isLoading}
       />
       {isDesktop ? (
         <div className="space-x-2">

@@ -1,43 +1,45 @@
-import useOnclickOutside from "react-cool-onclickoutside";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { AiOutlineClose } from "react-icons/ai";
+import RenderTag from "../components/RenderTag";
 
-function Timeline({ showTimeline, setShowTimeline, allTags, errorStatus }) {
-  const ref = useOnclickOutside(() => {
-    setShowTimeline(false);
-  });
-
+function Timeline({
+  showTimeline,
+  setShowTimeline,
+  allTags,
+  setAllTags,
+  errorStatus,
+  isLoading,
+}) {
   function TagList({ tags }) {
     return (
       <div>
-        {tags.map((tag) => {
-          const time = tag.time;
-          const hours = time !== 0 ? Math.floor(time / 3600) : 0;
-          const minutes = time !== 0 ? Math.floor((time % 3600) / 60) : 0;
-          const seconds = time !== 0 ? Math.floor(time % 60) : 0;
-          return (
-            <div key={tag._id}>
-              <p>{tag.tag}</p>
-              <p>{`${hours}:${minutes}:${seconds}`}</p>
-              <hr />
-            </div>
-          );
-        })}
+        {tags.map((tag) => (
+          <RenderTag tag={tag} setAllTags={setAllTags} key={tag._id} />
+        ))}
       </div>
     );
   }
+
   return (
-    <div ref={ref}>
+    <div className="z-20">
       {showTimeline && (
         <div
-          className=" w-52 h-64 absolute right-0 z-10 mt-9"
+          className=" w-52 h-64 absolute right-0 mt-9"
           style={{ backgroundColor: "rgba(32,88,109,0.8)" }}
         >
           <div className="space-x-2 border-slate-800 border-2 p-2 h-64 overflow-y-scroll">
+            <div
+              className="w-max cursor-pointer pb-2"
+              onClick={() => setShowTimeline(false)}
+            >
+              <AiOutlineClose />
+            </div>
             {allTags.length === 0 ? (
               errorStatus ? (
                 "Something went wrong. Try logging out and logging back in."
-              ) : (
+              ) : isLoading ? (
                 "Loading..."
+              ) : (
+                "No timeline present"
               )
             ) : (
               <TagList tags={allTags} />

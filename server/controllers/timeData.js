@@ -28,7 +28,6 @@ const saveTime = async (req, res) => {
 const getTime = async (req, res) => {
   try {
     const { uid } = req.query;
-    console.log({ uid });
     const timeData = await Time.findOne({ uid: uid });
     if (!timeData) {
       return res.status(400).json({ msg: "No time data exists" });

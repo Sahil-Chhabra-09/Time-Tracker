@@ -79,7 +79,7 @@ const Form = () => {
         uid: String(loggedInResponse.user._id),
       })
       .then((res) => {
-        console.log("Created data", res);
+        console.log("Created data");
       });
   };
 

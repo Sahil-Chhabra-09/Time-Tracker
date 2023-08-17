@@ -14,7 +14,6 @@ function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [currentTime, setCurrentTime] = useState(Date.now());
   const [totalTime, setTotalTime] = useState({
     time: 0,
     hours: 0,
@@ -42,9 +41,6 @@ function Home() {
       setStarted(savedData.started);
       setstartTime(savedData.startTime);
     }
-    setInterval(() => {
-      setCurrentTime(Date.now());
-    }, [900]);
   }, []);
 
   useEffect(() => {
@@ -137,7 +133,7 @@ function Home() {
     setStarted((prev) => !prev);
   };
 
-  const handleStop = () => {
+  const handlePause = () => {
     if (startTime !== null) {
       const currentStopTime = Date.now();
       setTotalTime((prevTotalTime) => ({
@@ -198,28 +194,40 @@ function Home() {
             theme: "coloured",
           });
         } else {
-          await axios.post(
-            `${apiUrl}tag`,
-            {
-              tag: event.target.value,
-              uid: String(localStorage.getItem("uid")),
-              time: lastRecordedTime,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${String(
-                  localStorage.getItem("token")
-                )}`,
+          const tag = event.target.value;
+          event.target.value = "";
+          setIsTaggingDisabled(true);
+          await axios
+            .post(
+              `${apiUrl}tag`,
+              {
+                tag: tag,
+                uid: String(localStorage.getItem("uid")),
+                time: lastRecordedTime,
               },
-            }
-          );
-          toast.info("Tagged Successfully", {
-            theme: "coloured",
-          });
+              {
+                headers: {
+                  Authorization: `Bearer ${String(
+                    localStorage.getItem("token")
+                  )}`,
+                },
+              }
+            )
+            .then((res) => {
+              handleNewStart();
+              toast.success("Tagged Successfully", {
+                theme: "coloured",
+              });
+            })
+            .catch((err) => {
+              event.target.value = tag;
+              setIsTaggingDisabled(false);
+              toast.info("Some error occured, couldn't tag", {
+                theme: "coloured",
+              });
+            });
         }
       }
-      event.target.value = "";
-      setIsTaggingDisabled(true);
     }
   };
 
@@ -229,7 +237,6 @@ function Home() {
         isLoggedIn={isLoggedIn}
         handleLogOut={handleLogOut}
         navigateToLogin={navigateToLogin}
-        currentTime={currentTime}
       />
       <div className="flex flex-col h-3/5 justify-center space-y-4">
         <div className="mb-8 text-xl">
@@ -250,9 +257,9 @@ function Home() {
               "&:hover": { backgroundColor: "brown" },
             }}
             disabled={!started}
-            onClick={handleStop}
+            onClick={handlePause}
           >
-            Stop
+            Pause
           </Button>
         </div>
         <div>

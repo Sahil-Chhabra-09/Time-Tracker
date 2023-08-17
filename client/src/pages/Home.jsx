@@ -178,10 +178,6 @@ function Home() {
     toast.success("Logged out successfully!");
   };
 
-  const navigateToLogin = () => {
-    navigate("/auth");
-  };
-
   const handleKeydown = async (event) => {
     if (event.key === "Enter" || event.key === "Done" || event.key === "Go") {
       if (!isLoggedIn) {
@@ -233,11 +229,7 @@ function Home() {
 
   return (
     <div className="bg-cyan-900 w-screen h-screen text-white">
-      <Navbar
-        isLoggedIn={isLoggedIn}
-        handleLogOut={handleLogOut}
-        navigateToLogin={navigateToLogin}
-      />
+      <Navbar isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
       <div className="flex flex-col h-3/5 justify-center space-y-4">
         <div className="mb-8 text-xl">
           <div>{`Hours : ${totalTime.hours}`}</div>

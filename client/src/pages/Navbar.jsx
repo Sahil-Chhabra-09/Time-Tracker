@@ -1,5 +1,5 @@
 import { Button, useMediaQuery } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import useOnclickOutside from "react-cool-onclickoutside";
 import Timeline from "./Timeline";
@@ -7,7 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import CurrentTime from "../components/RenderCurrentTime";
 
-function Navbar({ isLoggedIn, handleLogOut, navigateToLogin }) {
+function Navbar({ isLoggedIn, handleLogOut }) {
   const isDesktop = useMediaQuery("(min-width:700px)");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showTimeline, setShowTimeline] = useState(false);
@@ -15,6 +15,14 @@ function Navbar({ isLoggedIn, handleLogOut, navigateToLogin }) {
   const [allTags, setAllTags] = useState([]);
   const [errorStatus, setErrorStatus] = useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
+
+  const navigateToLogin = () => {
+    window.location.href = "/auth";
+  };
+
+  useEffect(() => {
+    console.log(isLoggedIn);
+  }, [isLoggedIn]);
 
   const getMyTags = async () => {
     if (!localStorage.getItem("uid") || !localStorage.getItem("token")) {

@@ -40,7 +40,8 @@ Now, I can keep track of time with just a click of a button.*
 - morgan for logging out the requests
 
 ## Future Scope / Features to follow:
-- commenting about the time frames
-- displaying all the time frames data in a sidesection
+- commenting about the time frames [Done]
+- displaying all the time frames data in a sidesection [Done]
 - tagging of the time spent throughout the day and sorting based on that
 - visualizing how the day went by analyzing the tags
+- ability to delete tags

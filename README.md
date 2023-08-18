@@ -42,6 +42,6 @@ Now, I can keep track of time with just a click of a button.*
 ## Future Scope / Features to follow:
 - commenting about the time frames [Done]
 - displaying all the time frames data in a sidesection [Done]
-- ability to delete tags [Ongoing]
+- ability to delete tags [Done]
 - tagging of the time spent throughout the day and sorting based on that
 - visualizing how the day went by analyzing the tags

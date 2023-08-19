@@ -50,14 +50,19 @@ const Form = () => {
   const dispatch = useDispatch();
 
   const register = async (values, onSubmitProps) => {
-    const savedUserResponse = await axios.post(
-      `${apiUrl}auth/register`,
-      values
-    );
-    if (savedUserResponse) {
-      toast.success("Registered Successfully!");
-      setPageType("login");
-    }
+    await axios
+      .post(`${apiUrl}auth/register`, values)
+      .then((res) => {
+        toast.success("Registered Successfully!");
+        setPageType("login");
+      })
+      .catch((error) => {
+        if (error.message === "Request failed with status code 500") {
+          toast.error("User already exists.");
+        } else {
+          toast.error("Something went wrong");
+        }
+      });
   };
 
   const afterLoginTasks = async (loggedInResponse, onSubmitProps) => {

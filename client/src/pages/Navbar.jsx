@@ -1,28 +1,26 @@
-import { Button, useMediaQuery } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Button } from "@mui/material";
+import React, { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import useOnclickOutside from "react-cool-onclickoutside";
 import Timeline from "./Timeline";
+import MyGoals from "./MyGoals";
 import axios from "axios";
 import { toast } from "react-toastify";
 import CurrentTime from "../components/RenderCurrentTime";
 
 function Navbar({ isLoggedIn, handleLogOut }) {
-  const isDesktop = useMediaQuery("(min-width:700px)");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showTimeline, setShowTimeline] = useState(false);
+  const [showGoals, setShowGoals] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [allTags, setAllTags] = useState([]);
+  const [allGoals, setAllGoals] = useState([]);
   const [errorStatus, setErrorStatus] = useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const navigateToLogin = () => {
     window.location.href = "/auth";
   };
-
-  useEffect(() => {
-    console.log(isLoggedIn);
-  }, [isLoggedIn]);
 
   const getMyTags = async () => {
     if (!localStorage.getItem("uid") || !localStorage.getItem("token")) {
@@ -58,80 +56,132 @@ function Navbar({ isLoggedIn, handleLogOut }) {
     }
   };
 
+  const getMyGoals = async () => {
+    if (!localStorage.getItem("uid") || !localStorage.getItem("token")) {
+      if (!isLoggedIn) {
+        toast.info("Please login to enable this feature", {
+          theme: "coloured",
+        });
+        return;
+      }
+      toast.info("Please login again", {
+        theme: "coloured",
+      });
+    } else {
+      setShowGoals(true);
+      await axios
+        .get(`${apiUrl}goal`, {
+          params: { uid: String(localStorage.getItem("uid")) },
+          headers: {
+            Authorization: `Bearer ${String(localStorage.getItem("token"))}`,
+          },
+        })
+        .then((res) => {
+          setAllGoals(res.data.goals);
+        })
+        .catch((error) => {
+          setErrorStatus(error.response.status);
+          console.error({ msg: "Couldn't get goals", error: error });
+        });
+    }
+  };
+
   const handleMenuOpen = () => {
     setIsMenuOpen((prev) => !prev);
+    setShowTimeline(false);
+    setShowGoals(false);
   };
 
   const ref = useOnclickOutside(() => {
     setIsMenuOpen(false);
+    setShowTimeline(false);
+    setShowGoals(false);
   });
 
   return (
-    <div className="flex justify-between shadow-lg p-4 items-center">
+    <div className="flex justify-between shadow-lg p-4 items-center" ref={ref}>
       <CurrentTime />
       <Timeline
         showTimeline={showTimeline}
-        setShowTimeline={setShowTimeline}
         allTags={allTags}
         setAllTags={setAllTags}
         errorStatus={errorStatus}
         isLoading={isLoading}
       />
-      {isDesktop ? (
-        <div className="space-x-2">
-          <Button
-            variant="outlined"
-            sx={{ color: "white", border: "1px solid #DEDEDE" }}
-            onClick={getMyTags}
-          >
-            My Timeline
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{ color: "white", border: "1px solid #DEDEDE" }}
-          >
-            <a href="https://github.com/Sahil-Chhabra-09/Time-Tracker#readme">
-              About
-            </a>
-          </Button>
-          {isLoggedIn ? (
-            <Button
-              variant="outlined"
-              sx={{ color: "white", border: "1px solid #DEDEDE" }}
-              onClick={handleLogOut}
+      <MyGoals
+        showGoals={showGoals}
+        setShowGoals={setShowGoals}
+        allGoals={allGoals}
+        setAllGoals={setAllGoals}
+        errorStatus={errorStatus}
+        isLoading={isLoading}
+      />
+      <div>
+        <Button
+          sx={{
+            color: "white",
+            "&:hover": {
+              border: "none",
+              backgroundColor: "none",
+            },
+          }}
+          onClick={handleMenuOpen}
+        >
+          <MoreVertIcon />
+        </Button>
+        {isMenuOpen && !showTimeline && !showGoals && (
+          <div className=" w-52 h-max absolute right-0 z-10">
+            <div
+              className="space-x-2 border-slate-800 border-2 p-2 mt-2"
+              style={{ backgroundColor: "rgba(32,88,109,0.8)" }}
             >
-              Logout
-            </Button>
-          ) : (
-            <Button
-              variant="outlined"
-              sx={{ color: "white", border: "1px solid #DEDEDE" }}
-              onClick={navigateToLogin}
-            >
-              Login / SignUp
-            </Button>
-          )}
-        </div>
-      ) : (
-        <div ref={ref}>
-          <Button
-            sx={{
-              color: "white",
-              "&:hover": {
-                border: "none",
-                backgroundColor: "none",
-              },
-            }}
-            onClick={handleMenuOpen}
-          >
-            <MoreVertIcon />
-          </Button>
-          {isMenuOpen && !showTimeline && (
-            <div className=" w-52 h-max absolute right-0 z-10">
-              <div
-                className="space-x-2 border-slate-800 border-2 p-2 mt-2"
-                style={{ backgroundColor: "rgba(32,88,109,0.8)" }}
+              <Button
+                variant="outlined"
+                sx={{
+                  color: "white",
+                  border: "none",
+                  "&:hover": {
+                    border: "none",
+                    backgroundColor: "rgb(32,88,109)",
+                  },
+                }}
               >
+                <a href="https://github.com/Sahil-Chhabra-09/Time-Tracker#readme">
+                  About
+                </a>
+              </Button>
+              <hr />
+              <Button
+                variant="outlined"
+                sx={{
+                  color: "white",
+                  border: "none",
+                  "&:hover": {
+                    border: "none",
+                    backgroundColor: "rgb(32,88,109)",
+                  },
+                }}
+                onClick={getMyGoals}
+              >
+                My Goals
+              </Button>
+              <hr />
+              <Button
+                variant="outlined"
+                sx={{
+                  color: "white",
+                  border: "none",
+                  "&:hover": {
+                    border: "none",
+                    backgroundColor: "rgb(32,88,109)",
+                  },
+                }}
+                onClick={getMyTags}
+              >
+                My Timeline
+              </Button>
+              <hr />
+              {isLoggedIn ? (
                 <Button
                   variant="outlined"
                   sx={{
@@ -142,44 +192,11 @@ function Navbar({ isLoggedIn, handleLogOut }) {
                       backgroundColor: "rgb(32,88,109)",
                     },
                   }}
+                  onClick={handleLogOut}
                 >
-                  <a href="https://github.com/Sahil-Chhabra-09/Time-Tracker#readme">
-                    About
-                  </a>
+                  Logout
                 </Button>
-                <hr />
-                {isLoggedIn ? (
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      color: "white",
-                      border: "none",
-                      "&:hover": {
-                        border: "none",
-                        backgroundColor: "rgb(32,88,109)",
-                      },
-                    }}
-                    onClick={handleLogOut}
-                  >
-                    Logout
-                  </Button>
-                ) : (
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      color: "white",
-                      border: "none",
-                      "&:hover": {
-                        border: "none",
-                        backgroundColor: "rgb(32,88,109)",
-                      },
-                    }}
-                    onClick={navigateToLogin}
-                  >
-                    Login / SignUp
-                  </Button>
-                )}
-                <hr />
+              ) : (
                 <Button
                   variant="outlined"
                   sx={{
@@ -190,15 +207,15 @@ function Navbar({ isLoggedIn, handleLogOut }) {
                       backgroundColor: "rgb(32,88,109)",
                     },
                   }}
-                  onClick={getMyTags}
+                  onClick={navigateToLogin}
                 >
-                  My Timeline
+                  Login / SignUp
                 </Button>
-              </div>
+              )}
             </div>
-          )}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

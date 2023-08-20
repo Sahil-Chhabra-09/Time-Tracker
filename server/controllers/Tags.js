@@ -1,9 +1,31 @@
 const Tags = require("../models/Tags");
+const Goals = require("../models/Goals");
+
+const updateGoal = async ({ tag, uid, time }) => {
+  try {
+    //finding goal if any
+    let goal = await Goals.findOne({ tag: tag, uid: uid });
+    if (goal.reqTime <= goal.time + time) {
+      await Goals.findOneAndUpdate(
+        { tag: tag, uid: uid },
+        { time: goal.time + time, completed: true }
+      );
+    } else {
+      await Goals.findOneAndUpdate(
+        { tag: tag, uid: uid },
+        { time: goal.time + time }
+      );
+    }
+  } catch (error) {
+    console.log("Error occured while updating goal");
+  }
+};
 
 /* CREATE */
 const addTag = async (req, res) => {
   try {
     const { tag, uid, time } = req.body;
+    updateGoal({ tag, uid, time });
     const existingTag = await Tags.findOne({ tag: tag, uid: uid });
     if (!existingTag) {
       await Tags.create({ tag: tag, uid: uid, time: time });
@@ -26,7 +48,7 @@ const getTags = async (req, res) => {
     const tags = await Tags.find({ uid: String(uid) });
     res.status(200).json({ success: true, tags: tags });
   } catch (error) {
-    res.status(500).json({ msg: "Couldn't add tag", error: error.msg });
+    res.status(500).json({ msg: "Couldn't get tags", error: error.msg });
   }
 };
 

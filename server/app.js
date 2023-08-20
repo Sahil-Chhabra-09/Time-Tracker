@@ -10,6 +10,8 @@ const morgan = require("morgan");
 const authRouter = require("./routes/register");
 const timeRouter = require("./routes/time");
 const tagRouter = require("./routes/Tags");
+const goalRouter = require("./routes/Goals");
+const verifyToken = require("./middleware/auth");
 
 app.use(express.json());
 app.use(cors());
@@ -18,6 +20,7 @@ app.use(morgan("common"));
 app.use("/auth", authRouter);
 app.use("/time", timeRouter);
 app.use("/tag", tagRouter);
+app.use("/goal", verifyToken, goalRouter);
 
 app.get("/", (req, res) => {
   res.status(200).json({ ping: "pong" });

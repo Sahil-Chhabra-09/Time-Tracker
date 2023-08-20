@@ -10,7 +10,7 @@ const addTag = async (req, res) => {
       return res.status(201).send("Tagged Successfully");
     }
     await Tags.findOneAndUpdate(
-      { tag: tag },
+      { tag: tag, uid: uid },
       { time: existingTag.time + time }
     );
     return res.status(201).send("Tagged Updated Successfully");

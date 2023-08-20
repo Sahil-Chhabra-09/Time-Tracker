@@ -1,5 +1,6 @@
 import { AiOutlineClose } from "react-icons/ai";
 import RenderTag from "../components/RenderTag";
+import useOnclickOutside from "react-cool-onclickoutside";
 
 function Timeline({
   showTimeline,
@@ -19,12 +20,17 @@ function Timeline({
     );
   }
 
+  const ref = useOnclickOutside(() => {
+    setShowTimeline(false);
+  });
+
   return (
     <div className="z-20">
       {showTimeline && (
         <div
           className=" w-52 h-64 absolute right-0 mt-9"
           style={{ backgroundColor: "rgba(32,88,109,0.8)" }}
+          ref={ref}
         >
           <div className="space-x-2 border-slate-800 border-2 p-2 h-64 overflow-y-scroll">
             <div

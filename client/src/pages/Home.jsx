@@ -27,7 +27,6 @@ function Home() {
     authToken || localStorage.getItem("token")
   );
   const [isTaggingDisabled, setIsTaggingDisabled] = useState(true);
-  const [lastRecordedTime, setLastRecordedTime] = useState(null);
 
   useEffect(() => {
     readTimerDataFromDb();
@@ -142,7 +141,6 @@ function Home() {
       }));
       setStarted((prev) => !prev);
       setIsTaggingDisabled(false);
-      setLastRecordedTime((currentStopTime - startTime) / 1000);
     }
   };
 
@@ -151,7 +149,6 @@ function Home() {
     setstartTime(null);
     setStarted(false);
     setIsTaggingDisabled(true);
-    setLastRecordedTime(null);
     const data = {
       totalTime: { time: 0, hours: 0, minutes: 0, seconds: 0 },
       started: false,
@@ -199,7 +196,7 @@ function Home() {
               {
                 tag: tag,
                 uid: String(localStorage.getItem("uid")),
-                time: lastRecordedTime,
+                time: totalTime.time,
               },
               {
                 headers: {

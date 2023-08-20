@@ -7,7 +7,7 @@ Another way is to start a stopwatch but the stopwatch induces an urgency with it
 
 ## Time Tracker
 
-Hence, I create a simple app which makes this task way easier, whenever you sit down, just press start, and when you leave, just press stop.
+Hence, I created a simple app which makes this task way easier, whenever you sit down, just press start, and when you leave, just press stop.
 
 Through login system integrated, you can operate it in multiple devices. At the end of the day, you can know how long you sat down for throughout the day.
 
@@ -28,6 +28,7 @@ Now, I can keep track of time with just a click of a button.*
 - react-toastify for appealing success or failure messages
 - formik for user appealing forms
 - yup for form validation
+- react-onClickOutside for UI enhancements
 
 ### Backend:
 - express
@@ -47,3 +48,4 @@ Now, I can keep track of time with just a click of a button.*
 - visualizing how the day went by analyzing the tags
 - Add goals functionality for tags
 - ability to edit a tag name
+- reports of how you did overall

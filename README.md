@@ -44,8 +44,8 @@ Now, I can keep track of time with just a click of a button.*
 - commenting about the time frames [Done]
 - displaying all the time frames data in a sidesection [Done]
 - ability to delete tags [Done]
+- Add goals functionality for tags [Done]
 - sorting based on tags
 - visualizing how the day went by analyzing the tags
-- Add goals functionality for tags
 - ability to edit a tag name
 - reports of how you did overall

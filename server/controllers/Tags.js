@@ -24,17 +24,16 @@ const updateGoal = async ({ tag, uid, time }) => {
 /* CREATE */
 const addTag = async (req, res) => {
   try {
-    const { tag, uid, time } = req.body;
-    updateGoal({ tag, uid, time });
+    let { tag, uid, time } = req.body;
     const existingTag = await Tags.findOne({ tag: tag, uid: uid });
     if (!existingTag) {
+      updateGoal({ tag, uid, time });
       await Tags.create({ tag: tag, uid: uid, time: time });
       return res.status(201).send("Tagged Successfully");
     }
-    await Tags.findOneAndUpdate(
-      { tag: tag, uid: uid },
-      { time: existingTag.time + time }
-    );
+    time = existingTag.time + time;
+    updateGoal({ tag, uid, time });
+    await Tags.findOneAndUpdate({ tag: tag, uid: uid }, { time: time });
     return res.status(201).send("Tagged Updated Successfully");
   } catch (error) {
     res.status(500).json({ msg: "Couldn't add tag", error: error.msg });

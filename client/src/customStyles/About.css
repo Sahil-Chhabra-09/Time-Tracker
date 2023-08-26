@@ -1,0 +1,47 @@
+/* About.css */
+
+.markdown-container {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+    text-align: left;
+    color: white;
+  }
+
+  .markdown-container p {
+    margin-top: 15px;
+  }
+  
+  /* Style headings */
+  .markdown-container h1 {
+    color: #DAFFFB;
+    font-size: 32px;
+    margin-top: 20px;
+    text-shadow: 2px 2px 4px black;
+  }
+  
+  .markdown-container h2 {
+    color: #DAFFFB;
+    font-size: 28px;
+    margin-top: 20px;
+    text-shadow: 2px 2px 4px black;
+  }
+
+  .markdown-container h3 {
+    color: #DAFFFB;
+    font-size: 20px;
+    margin-top: 20px;
+    text-decoration: underline;
+  }
+
+  .markdown-container ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-top: 10px;
+  }
+  
+  /* Style list items */
+  .markdown-container li {
+    margin-bottom: 5px;
+  }
+  

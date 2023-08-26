@@ -7,8 +7,10 @@ import MyGoals from "./MyGoals";
 import axios from "axios";
 import { toast } from "react-toastify";
 import CurrentTime from "../components/RenderCurrentTime";
+import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-function Navbar({ isLoggedIn, handleLogOut }) {
+function Navbar({ isLoggedIn = false, handleLogOut }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showTimeline, setShowTimeline] = useState(false);
   const [showGoals, setShowGoals] = useState(false);
@@ -16,6 +18,7 @@ function Navbar({ isLoggedIn, handleLogOut }) {
   const [allTags, setAllTags] = useState([]);
   const [allGoals, setAllGoals] = useState([]);
   const [errorStatus, setErrorStatus] = useState(null);
+  const location = useLocation();
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const navigateToLogin = () => {
@@ -99,7 +102,10 @@ function Navbar({ isLoggedIn, handleLogOut }) {
   });
 
   return (
-    <div className="flex justify-between shadow-lg p-4 items-center" ref={ref}>
+    <div
+      className="flex justify-between shadow-lg p-4 items-center text-white bg-cyan-900  absolute top-0 w-full"
+      ref={ref}
+    >
       <CurrentTime />
       <Timeline
         showTimeline={showTimeline}
@@ -146,9 +152,11 @@ function Navbar({ isLoggedIn, handleLogOut }) {
                   },
                 }}
               >
-                <a href="https://github.com/Sahil-Chhabra-09/Time-Tracker#readme">
-                  About
-                </a>
+                {location.pathname === "/about" ? (
+                  <Link to="/">Home</Link>
+                ) : (
+                  <Link to="/about">About</Link>
+                )}
               </Button>
               <hr />
               <Button

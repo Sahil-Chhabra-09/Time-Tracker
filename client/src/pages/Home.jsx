@@ -3,7 +3,6 @@ import { Button, Input } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogout } from "../state";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Navbar from "./Navbar";
 
@@ -11,7 +10,6 @@ function Home() {
   const authToken = useSelector((state) => state.auth.token);
   const uid = useSelector((state) => state.auth.uid);
   const apiUrl = process.env.REACT_APP_API_URL;
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [totalTime, setTotalTime] = useState({
@@ -225,9 +223,9 @@ function Home() {
   };
 
   return (
-    <div className="bg-cyan-900 w-screen h-screen text-white">
+    <div className="bg-indigo w-screen h-screen text-white">
       <Navbar isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
-      <div className="flex flex-col h-3/5 justify-center space-y-4">
+      <div className="flex flex-col justify-center h-full space-y-4">
         <div className="mb-8 text-xl">
           <div>{`Hours : ${totalTime.hours}`}</div>
           <div>{`Minutes : ${totalTime.minutes}`}</div>

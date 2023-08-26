@@ -7,7 +7,11 @@ Another way is to start a stopwatch but the stopwatch induces an urgency with it
 
 ## Time Tracker
 
-Hence, I created a simple app which makes this task way easier, whenever you sit down, just press start, and when you leave, just press stop.
+Hence, I created a simple app which makes this task way easier
+
+Just create the goal of *topic : duration*,
+
+whenever you sit down, just press start, and when you leave, just press pause, then you can simply tag it and the app will take care of it, it will keep track of your goal as well as your timeline.
 
 Through login system integrated, you can operate it in multiple devices. At the end of the day, you can know how long you sat down for throughout the day.
 

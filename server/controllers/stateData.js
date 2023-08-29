@@ -1,4 +1,4 @@
-const Time = require("../models/time");
+const State = require("../models/State");
 
 {
   /* CREATE */
@@ -6,15 +6,15 @@ const Time = require("../models/time");
 const saveTime = async (req, res) => {
   try {
     const { uid } = req.body;
-    const timeData = await Time.findOne({ uid: uid });
+    const timeData = await State.findOne({ uid: uid });
     if (timeData) {
       return res.status(200).json({
-        msg: "Time data already exists",
+        msg: "State data already exists",
       });
     }
-    const createdTime = await Time.create({ uid });
+    const createdTime = await State.create({ uid });
     res.status(201).json({
-      msg: "Time Info created successfully",
+      msg: "State Info created successfully",
       createdTime: createdTime,
     });
   } catch (error) {
@@ -28,9 +28,9 @@ const saveTime = async (req, res) => {
 const getTime = async (req, res) => {
   try {
     const { uid } = req.query;
-    const timeData = await Time.findOne({ uid: uid });
+    const timeData = await State.findOne({ uid: uid });
     if (!timeData) {
-      return res.status(400).json({ msg: "No time data exists" });
+      return res.status(400).json({ msg: "No State data exists" });
     }
     res.status(200).json({ timeData: timeData });
   } catch (error) {
@@ -44,7 +44,7 @@ const getTime = async (req, res) => {
 const updateTime = async (req, res) => {
   try {
     const { startTime, started, totalTime, uid } = req.body;
-    const updatedTime = await Time.findOneAndUpdate(
+    const updatedTime = await State.findOneAndUpdate(
       { uid: uid },
       { startTime: startTime, started: started, totalTime: totalTime },
       { new: true }
@@ -53,6 +53,7 @@ const updateTime = async (req, res) => {
       .status(200)
       .json({ msg: "Updated successfully", updatedTime: updatedTime });
   } catch (error) {
+    console.log(error.message);
     res.status(500).json({ error: error.message });
   }
 };

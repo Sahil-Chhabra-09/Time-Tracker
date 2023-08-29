@@ -8,7 +8,7 @@ const connectDb = require("./db/connect");
 const morgan = require("morgan");
 
 const authRouter = require("./routes/register");
-const timeRouter = require("./routes/time");
+const stateRouter = require("./routes/State");
 const tagRouter = require("./routes/Tags");
 const goalRouter = require("./routes/Goals");
 const verifyToken = require("./middleware/auth");
@@ -18,7 +18,7 @@ app.use(cors());
 app.use(morgan("common"));
 
 app.use("/auth", authRouter);
-app.use("/time", timeRouter);
+app.use("/time", stateRouter);
 app.use("/tag", tagRouter);
 app.use("/goal", verifyToken, goalRouter);
 

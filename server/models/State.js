@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const timeSchema = new mongoose.Schema({
+const stateSchema = new mongoose.Schema({
   uid: {
     type: String,
     required: true,
@@ -19,6 +19,6 @@ const timeSchema = new mongoose.Schema({
   },
 });
 
-const Time = mongoose.model("Time", timeSchema);
+const State = mongoose.model("State", stateSchema);
 
-module.exports = Time;
+module.exports = State;

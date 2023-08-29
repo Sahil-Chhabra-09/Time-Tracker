@@ -1,11 +1,15 @@
-# Time-Tracker
-Sometimes you want to keep track of time you spend doing something, let's say, I want to study right now and I want to study for 6 hours throughout the day with proper distributions,
+It is very important to keep track of what you do throughout the day as paying attention to what you do is the first step to readjust habits,
+
+let's say, I want to study right now and I want to study 3 different subjects for 2 hours each throughout the day with proper distributions,
+along with that, I want to track how much time I use my phone, how much time I lay in bed, etc.
 
 One way to track it all is to note down all the times you sat down and left the seat (inconvenient)
 
-Another way is to start a stopwatch but the stopwatch induces an urgency with it's rapidly changing numbers, I just feel anxious rather than motivated (inconvenient)
+Another way is to start a stopwatch but the stopwatch induces an urgency with its rapidly changing numbers, I just feel anxious rather than motivated (inconvenient)
 
 ## Time Tracker
+
+
 
 Hence, I created a simple app which makes this task way easier
 
@@ -13,12 +17,14 @@ Just create the goal of *topic : duration*,
 
 whenever you sit down, just press start, and when you leave, just press pause, then you can simply tag it and the app will take care of it, it will keep track of your goal as well as your timeline.
 
-Through login system integrated, you can operate it in multiple devices. At the end of the day, you can know how long you sat down for throughout the day.
+Through the login system integrated, you can operate it on multiple devices. At the end of the day, you can track how much time you spend on various things on daily basis.
 
-*Personally, I created this because I felt the need of something like this during my internship.
-I was supposed to work for certain period of time, but I always forgot when I signed out for lunch or tea breaks and all that which made me either sit for longer durations or shorter durations,
-hence, I created this.
-Now, I can keep track of time with just a click of a button.*
+### Working:
+- Create your goals in the "My Goals" tab
+- Then you just start tracking your time through start/pause
+- After you are done with a particular thing you can tag it and it get's added to your timeline
+- Now, in the goals tab, if you had goals with the same tag name, it automatically updates the completion of goal
+- [Keep in mind, tags are case sensitive]
 
 ## Technologies Used:
 
@@ -40,16 +46,19 @@ Now, I can keep track of time with just a click of a button.*
 - jsonwebtoken for maintaining sessions
 - nodemon for constant server rendering
 - bcrypt for password security
-- cors for cross origin resource sharing
+- cors for cross-origin resource sharing
 - dotenv for environment variables
 - morgan for logging out the requests
 
 ## Future Scope / Features to follow:
 - commenting about the time frames [Done]
-- displaying all the time frames data in a sidesection [Done]
+- displaying all the time frames data in a side section [Done]
 - ability to delete tags [Done]
 - Add goals functionality for tags [Done]
 - sorting based on tags
 - visualizing how the day went by analyzing the tags
 - ability to edit a tag name
 - reports of how you did overall
+
+## DB Schema
+![Time Tracker Schema](https://github.com/Sahil-Chhabra-09/Time-Tracker/assets/122990320/812075dd-269e-445d-a23a-675fcc67fc2f)

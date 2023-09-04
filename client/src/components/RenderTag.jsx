@@ -16,7 +16,6 @@ function RenderTag({ tag, setAllTags, isGoals = false }) {
     } else {
       progressPercentage = (completedTime / time) * 100;
     }
-    console.log(progressPercentage);
   } else {
     time = tag.time;
   }

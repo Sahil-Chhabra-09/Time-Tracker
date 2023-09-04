@@ -54,9 +54,15 @@ function Home() {
   }, [totalTime.time]);
 
   useEffect(() => {
-    updateInDb();
-    setIsTaggingDisabled(isTaggingDisabled || started);
-  }, [started]);
+    if (totalTime.time > 0) {
+      const data = {
+        totalTime: totalTime,
+        started: started,
+        startTime: startTime,
+      };
+      localStorage.setItem("timerData", JSON.stringify(data));
+    }
+  }, [totalTime, startTime]);
 
   useEffect(() => {
     if (totalTime.time > 0) {
@@ -66,8 +72,17 @@ function Home() {
         startTime: startTime,
       };
       localStorage.setItem("timerData", JSON.stringify(data));
+    } else if (started === true) {
+      const data = {
+        totalTime: { time: 0, hours: 0, minutes: 0, seconds: 0 },
+        started: true,
+        startTime: startTime,
+      };
+      localStorage.setItem("timerData", JSON.stringify(data));
     }
-  }, [totalTime, started, startTime]);
+    updateInDb();
+    setIsTaggingDisabled(isTaggingDisabled || started);
+  }, [started]);
 
   useEffect(() => {
     setIsLoggedIn(authToken || localStorage.getItem("token"));
@@ -127,7 +142,7 @@ function Home() {
 
   const handleStart = () => {
     setstartTime(Date.now());
-    setStarted((prev) => !prev);
+    setStarted(true);
   };
 
   const handlePause = () => {

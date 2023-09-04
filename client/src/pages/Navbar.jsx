@@ -95,6 +95,12 @@ function Navbar({ isLoggedIn = false, handleLogOut }) {
     setShowGoals(false);
   };
 
+  const handleNewFeatures = () => {
+    toast.success("Feature coming soon!", {
+      theme: "coloured",
+    });
+  };
+
   const ref = useOnclickOutside(() => {
     setIsMenuOpen(false);
     setShowTimeline(false);
@@ -187,6 +193,36 @@ function Navbar({ isLoggedIn = false, handleLogOut }) {
                 onClick={getMyTags}
               >
                 My Timeline
+              </Button>
+              <hr />
+              <Button
+                variant="outlined"
+                sx={{
+                  color: "white",
+                  border: "none",
+                  "&:hover": {
+                    border: "none",
+                    backgroundColor: "rgb(32,88,109)",
+                  },
+                }}
+                onClick={handleNewFeatures}
+              >
+                Pomodoro
+              </Button>
+              <hr />
+              <Button
+                variant="outlined"
+                sx={{
+                  color: "white",
+                  border: "none",
+                  "&:hover": {
+                    border: "none",
+                    backgroundColor: "rgb(32,88,109)",
+                  },
+                }}
+                onClick={handleNewFeatures}
+              >
+                My Time Table
               </Button>
               <hr />
               {isLoggedIn ? (

@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import About from "./pages/About";
 import "./customStyles/Blob.css";
 import NotFound from "./pages/NotFound";
+import TimeTableContainer from "./pages/TimeTable/TimeTableContainer";
 
 function App() {
   const authToken = useSelector((state) => state.auth.token);
@@ -23,6 +24,7 @@ function App() {
           <Route path="/auth" Component={isLoggedIn ? Home : Login} />
           <Route path="/about" Component={About} />
           <Route path="*" Component={NotFound} />
+          <Route path="/tt" Component={TimeTableContainer} />
         </Routes>
         <ToastContainer position="bottom-left" autoClose={3000} limit={4} />
       </BrowserRouter>

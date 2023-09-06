@@ -97,9 +97,9 @@ function About() {
     toast.success("Logged out successfully!");
   };
   return (
-    <>
+    <div id="blur">
       <Navbar isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
-      <div className="bg-indigo h-screen flex justify-center flex-col pt-10">
+      <div className="h-screen flex justify-center flex-col pt-10">
         <div
           className="mx-24 overflow-y-scroll shadow-lg shadow-slate-300 rounded-md  text-white "
           style={{ height: "80vh" }}
@@ -109,7 +109,7 @@ function About() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

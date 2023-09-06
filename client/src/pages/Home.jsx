@@ -238,7 +238,7 @@ function Home() {
   };
 
   return (
-    <div className="bg-indigo w-screen h-screen text-white">
+    <div className="w-screen h-screen text-white" id="blur">
       <Navbar isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
       <div className="flex flex-col justify-center h-full space-y-4">
         <div className="mb-8 text-xl">

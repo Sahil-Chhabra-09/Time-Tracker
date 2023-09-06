@@ -7,6 +7,8 @@ import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import About from "./pages/About";
+import "./customStyles/Blob.css";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const authToken = useSelector((state) => state.auth.token);
@@ -20,6 +22,7 @@ function App() {
           <Route path="/" Component={Home} />
           <Route path="/auth" Component={isLoggedIn ? Home : Login} />
           <Route path="/about" Component={About} />
+          <Route path="*" Component={NotFound} />
         </Routes>
         <ToastContainer position="bottom-left" autoClose={3000} limit={4} />
       </BrowserRouter>

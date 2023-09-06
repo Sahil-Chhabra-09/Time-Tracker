@@ -13,6 +13,27 @@ const store = configureStore({
     auth: authReducer,
   },
 });
+
+const blob = document.getElementById("blob");
+
+function moveBlob(event) {
+  const { clientX, clientY } = event;
+  blob.animate(
+    {
+      top: `${clientY}px`,
+      left: `${clientX}px`,
+    },
+    { duration: 3000, fill: "forwards" }
+  );
+}
+
+if (window.innerWidth >= 650) {
+  console.log(window);
+  window.onpointermove = moveBlob;
+} else {
+  window.onpointermove = null;
+}
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>

@@ -4,7 +4,7 @@ import Form from "./Form";
 function Login() {
   const isDesktop = useMediaQuery("(min-width:1000px)");
   return (
-    <Box color={"white"} sx={{ height: "100vh" }}>
+    <Box color={"white"} sx={{ height: "100vh" }} className="bg-white">
       <Box backgroundColor={"rgb(22, 78, 99)"}>
         <Box className="text-center" p="0.5rem 6%">
           <Typography fontWeight="bold" fontSize="32px">

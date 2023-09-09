@@ -101,6 +101,12 @@ function Navbar({ isLoggedIn = false, handleLogOut }) {
     });
   };
 
+  const loginToast = () => {
+    toast.info("Please login to enable this feature", {
+      theme: "coloured",
+    });
+  };
+
   const ref = useOnclickOutside(() => {
     setIsMenuOpen(false);
     setShowTimeline(false);
@@ -220,9 +226,15 @@ function Navbar({ isLoggedIn = false, handleLogOut }) {
                     backgroundColor: "rgb(32,88,109)",
                   },
                 }}
-                onClick={handleNewFeatures}
               >
-                My Time Table
+                {location.pathname === "/tt" ? (
+                  <Link to="/">Home</Link>
+                ) : !localStorage.getItem("uid") ||
+                  !localStorage.getItem("token") ? (
+                  <span onClick={loginToast}>My Time Table</span>
+                ) : (
+                  <Link to="/tt">My Time Table</Link>
+                )}
               </Button>
               <hr />
               {isLoggedIn ? (

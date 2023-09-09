@@ -11,6 +11,7 @@ const authRouter = require("./routes/register");
 const stateRouter = require("./routes/State");
 const tagRouter = require("./routes/Tags");
 const goalRouter = require("./routes/Goals");
+const ttRouter = require("./routes/TimeTable");
 const verifyToken = require("./middleware/auth");
 
 app.use(express.json());
@@ -21,6 +22,7 @@ app.use("/auth", authRouter);
 app.use("/time", stateRouter);
 app.use("/tag", tagRouter);
 app.use("/goal", verifyToken, goalRouter);
+app.use("/tt", verifyToken, ttRouter);
 
 app.get("/", (req, res) => {
   res.status(200).json({ ping: "pong" });

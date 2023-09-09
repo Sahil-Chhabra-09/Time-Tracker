@@ -7,7 +7,7 @@
 
 #blob{
     background-color: white;
-    width: 40vw;
+    width: 300px;
     aspect-ratio: 1;
     position: absolute;
     left:50%;
@@ -30,6 +30,12 @@
     backdrop-filter: blur(150px);
     z-index: 1;
 }
+
+#customDim{
+    width: fit-content;
+    height: fit-content;
+}
+
 
 @keyframes rotate {
     0%{

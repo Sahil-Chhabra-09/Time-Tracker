@@ -28,7 +28,6 @@ function moveBlob(event) {
 }
 
 if (window.innerWidth >= 650) {
-  console.log(window);
   window.onpointermove = moveBlob;
 } else {
   window.onpointermove = null;

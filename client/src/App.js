@@ -24,7 +24,10 @@ function App() {
           <Route path="/auth" Component={isLoggedIn ? Home : Login} />
           <Route path="/about" Component={About} />
           <Route path="*" Component={NotFound} />
-          <Route path="/tt" Component={TimeTableContainer} />
+          <Route
+            path="/tt"
+            Component={isLoggedIn ? TimeTableContainer : Home}
+          />
         </Routes>
         <ToastContainer position="bottom-left" autoClose={3000} limit={4} />
       </BrowserRouter>

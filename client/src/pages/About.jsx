@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import "../customStyles/About.css";
-import Navbar from "./Navbar";
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import { setLogout } from "../state";
+import RenderNavbar from "../components/RenderNavbar";
 
 const markdownContent = `
 It is very important to keep track of what you do throughout the day as paying attention to what you do is the first step to readjust habits,
@@ -71,34 +68,9 @@ Through the login system integrated, you can operate it on multiple devices. At 
 `;
 
 function About() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, [localStorage.getItem("token")]);
-
-  const dispatch = useDispatch();
-
-  const handleLogOut = () => {
-    const data = {
-      totalTime: { time: 0, hours: 0, minutes: 0, seconds: 0 },
-      started: false,
-      startTime: 0,
-    };
-    localStorage.setItem("timerData", JSON.stringify(data));
-    localStorage.removeItem("token");
-    localStorage.removeItem("uid");
-    dispatch(setLogout);
-    setIsLoggedIn(false);
-    toast.success("Logged out successfully!");
-  };
   return (
     <div id="blur">
-      <Navbar isLoggedIn={isLoggedIn} handleLogOut={handleLogOut} />
+      <RenderNavbar />
       <div className="h-screen flex justify-center flex-col pt-10">
         <div
           className="mx-24 overflow-y-scroll shadow-lg shadow-slate-300 rounded-md  text-white "

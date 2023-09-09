@@ -1,7 +1,7 @@
 import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import { toast } from "react-toastify";
 
 function RenderTag({ tag, setAllTags, isGoals = false }) {
@@ -75,14 +75,12 @@ function RenderTag({ tag, setAllTags, isGoals = false }) {
           {isGoals && completedTime >= time && (
             <TaskAltIcon
               sx={{
-                fill: "inherit",
                 fill: "greenyellow",
               }}
             />
           )}
           <RemoveCircleOutlineOutlinedIcon
             sx={{
-              fill: "inherit",
               cursor: "pointer",
               fill: "white",
               "&:hover": { fill: "red" },

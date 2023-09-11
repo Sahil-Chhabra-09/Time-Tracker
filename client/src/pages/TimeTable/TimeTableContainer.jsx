@@ -8,7 +8,6 @@ import RenderNavbar from "../../components/RenderNavbar";
 
 function TimeTableContainer() {
   const [stage, setStage] = useState("first");
-  // const [showInstruction, setShowInstruction] = useState(false);
   const [timeTableData, setTimeTableData] = useState(markDownTimeTable);
   const [statusArray, setStatusArray] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,12 +43,19 @@ function TimeTableContainer() {
 
   const isValidTimeTable = async () => {
     let isValid = true;
+    timeTableData.trim();
     timeTableData.split(";").forEach((ele) => {
-      if (ele.trim().split(",").length !== 3) {
+      if (ele.split(",").length !== 3 && ele !== "") {
+        console.log(ele);
         isValid = false;
-        toast.warn(`Invalid line ${ele}`);
       }
     });
+
+    if (isValid === false) {
+      toast.error(`Some line is invalid`, {
+        theme: "dark",
+      });
+    }
     return isValid;
   };
 

@@ -53,8 +53,8 @@ function TimeTableComponent({ props }) {
     <div id="blur">
       <RenderNavbar />
       <div className="w-full h-full flex justify-center items-center">
-        <div className="flex flex-col w-4/5">
-          <div className="flex justify-end my-2">
+        <div className="w-full h-5/6 flex flex-col justify-center items-center">
+          <div className="flex justify-end my-2 w-4/5">
             <span onClick={() => setStage("first")}>
               <CreateIcon
                 sx={{
@@ -74,29 +74,32 @@ function TimeTableComponent({ props }) {
               />
             </span>
           </div>
-          {Tasks.map((ele, index) => {
-            return (
-              <div className="h-full flex" key={ele}>
-                <div className="w-1/4 border-2 text-white flex justify-center items-center">
-                  {ele.split(",")[0]}
+          <div className="flex flex-col w-4/5 overflow-y-scroll h-4/5">
+            {Tasks.map((ele, index) => {
+              if (ele === "") return <div key={index}></div>;
+              return (
+                <div className="h-full flex" key={index}>
+                  <div className="w-1/4 border-2 text-white flex justify-center items-center">
+                    {ele.split(",")[0]}
+                  </div>
+                  <div className="w-1/4 border-2 text-white flex justify-center items-center">
+                    {ele.split(",")[1]}
+                  </div>
+                  <div className="w-1/4 border-2 text-white flex justify-center items-center">
+                    {ele.split(",")[2]}
+                  </div>
+                  <div className="w-1/4 border-2 text-white flex justify-center items-center">
+                    <RenderStatusDropDown
+                      options={status}
+                      handleOptionChange={handleOptionChange}
+                      index={index}
+                      optValue={enCode(statusArray[index])}
+                    />
+                  </div>
                 </div>
-                <div className="w-1/4 border-2 text-white flex justify-center items-center">
-                  {ele.split(",")[1]}
-                </div>
-                <div className="w-1/4 border-2 text-white flex justify-center items-center">
-                  {ele.split(",")[2]}
-                </div>
-                <div className="w-1/4 border-2 text-white flex justify-center items-center">
-                  <RenderStatusDropDown
-                    options={status}
-                    handleOptionChange={handleOptionChange}
-                    index={index}
-                    optValue={enCode(statusArray[index])}
-                  />
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
